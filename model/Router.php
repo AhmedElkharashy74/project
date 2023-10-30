@@ -1,20 +1,41 @@
 <?php
 class Router {
-    private $routes = [];
-    
-    public function add($route, $handler) {
-        $this->routes[$route] = $handler;
-    }
-    
-    public function dispatch($uri) {
-        if (array_key_exists($uri, $this->routes)) {
-            $parts = explode('@', $this->routes[$uri]);
-            $controller = $parts[0];
-            $method = $parts[1];
-            $method();
-        } else {
-            header("HTTP/1.0 404 Not Found");
-            echo "404 Not Found";
+        private $routes = [];
+        
+        public function add($route, $handler) {
+            $this->routes[$route] = $handler;
+        }
+        
+        public function dispatch($uri) {
+            $uriparts = explode("?", $uri);
+            $handler = $this->findHandler($uriparts[0]);
+            // echo $uriparts[0];  
+            if ($handler) {
+                $parts = explode('@', $handler);
+                $controller = $parts[0];
+                $method = $parts[1];
+                $controllerInstance = new $controller();
+                $controllerInstance->$method();
+            } else {
+                header("HTTP/1.0 404 Not Found");
+                echo "404 Not Found";
+            }
+        }
+        
+        private function findHandler($uri) {
+            foreach ($this->routes as $route => $handler) {
+                if ($this->isMatchingRoute($route, $uri)) {
+                    return $handler;
+                }
+            }
+            
+            return null;
+        }
+        
+        private function isMatchingRoute($route, $uri) {
+            $pattern = "/^" . str_replace('/', '\/', $route) . "$/";
+            return preg_match($pattern, $uri);
         }
     }
-}
+    
+

@@ -28,8 +28,24 @@ class Student{
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
     }
-    public function login(){
+    public function get($param){
+        return "this is get";
 
     }
-
+    public function post($param){
+        return "this is post";
+        
+    }
+    public function createStudent($name , $email, $pass, $grade , $section){
+        $query = "INSERT INTO student(name , email, password ,grade, section) VALUES(?,?,?,?,?) ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$name, $email, $pass, $grade, $section]);
+    }
+    public function login($email , $pass){
+        $query = "SELECT * FROM student WHERE (email = ?) AND (password = ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$email, $pass]);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
 }
