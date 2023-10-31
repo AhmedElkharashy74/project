@@ -2,7 +2,6 @@
 
 class Student{
     protected $db;
-    protected $table;
 
     public function __construct($db){
         $this->db = $db;
@@ -42,10 +41,11 @@ class Student{
         $stmt->execute([$name, $email, $pass, $grade, $section]);
     }
     public function login($email , $pass){
-        $query = "SELECT * FROM student WHERE (email = ?) AND (password = ?)";
+        $query = "SELECT * FROM student WHERE email = ? AND password = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$email, $pass]);
-        $result = $stmt->fetchAll();
+        $result = $stmt->rowCount();
         return $result;
     }
+
 }
