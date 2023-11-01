@@ -10,8 +10,9 @@ class Teacher{
         $query = "SELECT * FROM teachers WHERE email = ? AND password = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$email, $pass]);
-        $result = $stmt->rowCount();
-        return $result;
+        $exist = $stmt->rowCount();
+        $data = $stmt->fetchAll();
+        return [$exist, $data];
     }
     public function readAll(){
         $query = "SELECT * FROM subjects";

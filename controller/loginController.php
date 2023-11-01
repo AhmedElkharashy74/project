@@ -41,9 +41,14 @@ class LoginController
 
         if ($method == "POST" AND isset($_POST["email"])AND $_POST['pass'] !== null) {
             $teacher = new Teacher($pdo->conn);
-            $num = $teacher->login($_POST['email'], $_POST['pass']);
+            $result = $teacher->login($_POST['email'], $_POST['pass']);
+            $num = $result[0];
+            $data = $result[1];
+            $jsonEncodedData = json_encode($data);
+            $urlEncodedData = urlencode($jsonEncodedData);
+
             if ($num > 0) {
-                header('Location: /college_project/home?email='.$_POST['email']);
+                header('Location: /college_project/home?data='.$urlEncodedData);
 
             }else{
                 $msg = 'some thing went wrong';

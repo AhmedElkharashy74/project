@@ -1,7 +1,8 @@
 <?php
 class HomeController {
     public function home(){
-        echo $_GET['email'];
+        view("home", []);
+        $this->readSubjects();
     }
     
     public function readSubjects(){
