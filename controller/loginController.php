@@ -11,11 +11,14 @@ class LoginController
 
 
         if ($method == "POST" AND isset($_POST["email"])AND $_POST['pass'] !== null) {
+            session_start();
             $student = new Student($pdo->conn);
-            $num = $student->login($_POST['email'], $_POST['pass']);
-            if ($num > 0) {
-                header('Location: /college_project/home?email='.$_POST['email']);
-
+            $data = $student->login($_POST['email'], $_POST['pass']);
+            if ($data != null) {
+                $jsonData = json_encode($data);
+                $router = new Router;
+                $_SESSION['name'] = $jsonData;
+                $router->redirect('/college_project/home', []);
             }else{
                 $msg = 'some thing went wrong';
                 $json_msg = json_encode($msg);

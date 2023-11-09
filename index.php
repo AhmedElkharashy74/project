@@ -7,6 +7,8 @@ require_once 'model/Database.php';
 require_once 'controller/loginController.php';
 require_once 'controller/registerController.php';
 require_once 'controller/HomeController.php';
+require_once 'controller/subjectsController.php';
+
 
 
 $router = new Router();
@@ -16,6 +18,8 @@ $router->add('/college_project/teacher_login', 'LoginController@loginTeacher');
 $router->add('/college_project/', 'LoginController@login'); 
 $router->add("/college_project/register" ,'RegisterController@register'); 
 $router->add("/college_project/home" ,'HomeController@home'); 
+$router->add("/college_project/subjects" ,'SubjectsController@subjects'); 
+
 
 
 

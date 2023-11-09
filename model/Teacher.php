@@ -7,7 +7,7 @@ class Teacher{
     }
 
     public function login($email , $pass){
-        $query = "SELECT * FROM teachers WHERE email = ? AND password = ?";
+        $query = "SELECT * FROM teacher WHERE email = ? AND password = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$email, $pass]);
         $exist = $stmt->rowCount();

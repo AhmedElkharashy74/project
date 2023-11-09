@@ -36,6 +36,17 @@ class Router {
             $pattern = "/^" . str_replace('/', '\/', $route) . "$/";
             return preg_match($pattern, $uri);
         }
+
+        public function redirect($uri, $data = []) {
+            session_start();
+    
+            $_SESSION['redirect_data'] = $data;
+    
+            header("Location: $uri");
+            exit; 
+        }
+        
+
     }
     
 

@@ -10,6 +10,6 @@ class HomeController {
         $teacher = new Teacher($db->conn);
         $result = $teacher->readAll();
         $msg = json_encode($result);
-        echo $msg;
+        // echo $msg;
     }
 }

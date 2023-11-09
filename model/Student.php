@@ -8,7 +8,7 @@ class Student{
     }
     
     public function getStudent($id){
-        $query = $this->db->query("SELECT  FROM students WHERE ID =?");
+        $query = $this->db->query("SELECT  FROM student WHERE ID =?");
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
     }
@@ -36,16 +36,28 @@ class Student{
         
     }
     public function createStudent($name , $email, $pass, $grade , $section){
-        $query = "INSERT INTO student(name , email, password ,grade, section) VALUES(?,?,?,?,?) ";
+        $query = "INSERT INTO students(name , email, password ,grade, section) VALUES(?,?,?,?,?) ";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$name, $email, $pass, $grade, $section]);
     }
-    public function login($email , $pass){
-        $query = "SELECT * FROM student WHERE email = ? AND password = ?";
+    public function login($email, $pass) {
+        $query = "SELECT * FROM students WHERE email = ? AND password = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$email, $pass]);
-        $result = $stmt->rowCount();
-        return $result;
+        
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch();
+        } else {
+            return null;
+        }
     }
+
+    public function showSubject($grade,$department){
+        $query = "SELECT * FROM subjects WHERE grade = ? AND department = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$grade, $department]);
+        return $stmt->fetchAll();
+    }
+    
 
 }

@@ -2,7 +2,7 @@
 class DataBase {
 
 protected $host = "localhost";
-protected $dbname = "college_project";
+protected $dbname = "project";
 protected $user = "root";
 protected $pass = "";
 public $conn;
