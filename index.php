@@ -18,7 +18,7 @@ $router->add('/college_project/teacher_login', 'LoginController@loginTeacher');
 $router->add('/college_project/', 'LoginController@login'); 
 $router->add("/college_project/register" ,'RegisterController@register'); 
 $router->add("/college_project/home" ,'HomeController@home'); 
-$router->add("/college_project/subjects" ,'SubjectsController@subjects'); 
+$router->add("/college_project/subjects" ,'SubjectsController@subjects' ); 
 
 
 

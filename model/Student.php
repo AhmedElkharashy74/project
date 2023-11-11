@@ -52,12 +52,18 @@ class Student{
         }
     }
 
-    public function showSubject($grade,$department){
+    public function showSubjects($grade,$department){
         $query = "SELECT * FROM subjects WHERE grade = ? AND department = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$grade, $department]);
         return $stmt->fetchAll();
     }
     
+    public function readSubject($subject ,$grade , $department){
+        $query = "SELECT * FROM subjects WHERE subject = ? AND grade = ? AND department = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$subject, $grade, $department]);
+        return $stmt->fetch();
+    }
 
 }

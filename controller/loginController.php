@@ -17,7 +17,7 @@ class LoginController
             if ($data != null) {
                 $jsonData = json_encode($data);
                 $router = new Router;
-                $_SESSION['name'] = $jsonData;
+                $_SESSION['data'] = $jsonData;
                 $router->redirect('/college_project/home', []);
             }else{
                 $msg = 'some thing went wrong';
@@ -35,24 +35,19 @@ class LoginController
 
     public function loginTeacher(){
         $pdo = new DataBase;
+        // view('login', []);
 
         $method = $_SERVER["REQUEST_METHOD"];
 
-
-        $teacher = new Teacher($pdo->conn);
-
-
         if ($method == "POST" AND isset($_POST["email"])AND $_POST['pass'] !== null) {
+            session_start();
             $teacher = new Teacher($pdo->conn);
-            $result = $teacher->login($_POST['email'], $_POST['pass']);
-            $num = $result[0];
-            $data = $result[1];
-            $jsonEncodedData = json_encode($data);
-            $urlEncodedData = urlencode($jsonEncodedData);
-
-            if ($num > 0) {
-                header('Location: /college_project/home?data='.$urlEncodedData);
-
+            $data = $teacher->login($_POST['email'], $_POST['pass']);
+            if ($data != null) {
+                $jsonData = json_encode($data);
+                $router = new Router;
+                $_SESSION['data'] = $jsonData;
+                $router->redirect('/college_project/home', []);
             }else{
                 $msg = 'some thing went wrong';
                 $json_msg = json_encode($msg);
@@ -63,6 +58,6 @@ class LoginController
         {
             view('login', []);
         }
-        $pdo = null;  
+        $pdo = null;   
     }
 }

@@ -6,18 +6,21 @@ class Teacher{
         $this->conn = $conn;
     }
 
-    public function login($email , $pass){
-        $query = "SELECT * FROM teacher WHERE email = ? AND password = ?";
+    public function login($email, $pass) {
+        $query = "SELECT * FROM teachers WHERE email = ? AND password = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$email, $pass]);
-        $exist = $stmt->rowCount();
-        $data = $stmt->fetchAll();
-        return [$exist, $data];
+        
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch();
+        } else {
+            return null;
+        }
     }
-    public function readAll(){
-        $query = "SELECT * FROM subjects";
+    public function readAll($subject){
+        $query = "SELECT * FROM subjects WHERE subject =?";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([]);
+        $stmt->execute([$subject]);
         $result = $stmt->fetchAll();
         return $result;
     }

@@ -7,11 +7,21 @@ class SubjectsController{
         $db = new DataBase();
 
         $student = new Student($db->conn);
-        if ($_SERVER['REQUEST_METHOD'] == 'GET' AND !empty($_SESSION) ) {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' AND !empty($_SESSION) AND empty($_GET['subject']) ) {
             $data = json_decode($_SESSION['data']);
-            echo "<pre>";
-            $subjects = $student->showSubject($data[0]->grade, $data[0]->department);
-            var_dump($subjects);
+            $subjects = $student->showSubjects($data->grade, $data->department);
+            print_r($subjects);
+            echo '<br>';
+        }
+        if ($_SERVER["REQUEST_METHOD"] == "GET"AND !empty($_GET['subject']) AND !empty($_SESSION)) {
+            $data = json_decode($_SESSION['data']);
+            if ($_GET['grade'] == $data->grade AND $_GET['department'] == $data->department) {
+                $subject = $student->readSubject($_GET['subject'], $_GET['grade'] , $_GET['department']);
+                print_r($subject);
+            }else{
+                echo "not allowed";
+            }
+            
         }
         // var_dump($student->showSubject('1', 'prep'));
     }
