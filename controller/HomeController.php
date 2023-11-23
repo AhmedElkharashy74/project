@@ -4,7 +4,7 @@ class HomeController {
         view("home", []);
         // print_r($_SESSION['data']);
         $data = json_decode($_SESSION['data']);
-        print_r($data);
+        // print_r($data);
         if (property_exists($data,'subject')) {
             $this->teacherReadSubjects($data->subject);
         }else{
@@ -18,13 +18,13 @@ class HomeController {
         $teacher = new Teacher($db->conn);
         $result = $teacher->readAll($subject);
         $data = json_encode($result);
-        print_r($data);
+        // print_r($data);
     }
     public function readSubjects(){
         $db = new DataBase();
         $student = new Student($db->conn);
         $data = json_decode($_SESSION['data']);
-        $subject = $student->showSubjects($data->grade , $data->department);
-        print_r($subject);
+        $subjects = $student->showSubjects($data->grade , $data->department);
+        $_SESSION['subjects'] = $subjects;
     }
 }

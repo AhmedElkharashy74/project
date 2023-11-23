@@ -59,11 +59,21 @@ class Student{
         return $stmt->fetchAll();
     }
     
-    public function readSubject($subject ,$grade , $department){
+    public function readSubject($name ,$grade , $department){
         $query = "SELECT * FROM subjects WHERE subject = ? AND grade = ? AND department = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$subject, $grade, $department]);
-        return $stmt->fetch();
+        $stmt->execute([$name, $grade, $department]);
+        $subject = $stmt->fetch();
+        $sql = "SELECT * FROM content WHERE subject = ?";
+        $state = $this->db->prepare($sql);
+        $state->execute([$name]);
+        $content = $state->fetchAll();
+        return [$subject,$content];
     }
-
+    public function readContent($subject){
+        $query = "SELECT * FROM content WHERE subject = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$subject]);
+        return $stmt->fetchAll();
+    }
 }

@@ -16,8 +16,11 @@ class SubjectsController{
         if ($_SERVER["REQUEST_METHOD"] == "GET"AND !empty($_GET['subject']) AND !empty($_SESSION)) {
             $data = json_decode($_SESSION['data']);
             if ($_GET['grade'] == $data->grade AND $_GET['department'] == $data->department) {
-                $subject = $student->readSubject($_GET['subject'], $_GET['grade'] , $_GET['department']);
-                print_r($subject);
+                $subjectData = $student->readSubject($_GET['subject'], $_GET['grade'] , $_GET['department']);
+                $content = $student->readSubject($subjectData[0][1], $_GET['grade'],$_GET['department'] );
+                
+
+                $_SESSION['content'] = $content[1];
             }else{
                 echo "not allowed";
             }
